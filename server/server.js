@@ -10,7 +10,7 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 
 // ------------------------------------
@@ -43,10 +43,12 @@ app.use(
 // DATABASE SETUP
 // ------------------------------------
 
-const dataFolder = path.join(__dirname, "data");
+const dataFolder =
+  process.env.DATA_PATH ||
+  path.join(__dirname, "data");
 
 if (!fs.existsSync(dataFolder)) {
-  fs.mkdirSync(dataFolder);
+  fs.mkdirSync(dataFolder, { recursive: true });
 }
 
 const databasePath = path.join(
