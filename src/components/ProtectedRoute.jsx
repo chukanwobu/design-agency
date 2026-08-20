@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
+import { API_URL } from "../api";
 
 function ProtectedRoute({ children }) {
   const [authenticated, setAuthenticated] =
@@ -9,7 +10,10 @@ function ProtectedRoute({ children }) {
     const checkSession = async () => {
       try {
         const response = await fetch(
-          "/api/admin/session"
+          `${API_URL}/api/admin/session`,
+          {
+            credentials: "include",
+          }
         );
 
         const data = await response.json();

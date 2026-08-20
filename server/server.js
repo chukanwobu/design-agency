@@ -10,6 +10,7 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
+app.set("trust proxy", 1);
 const PORT = process.env.PORT || 4000;
 
 
@@ -17,7 +18,12 @@ const PORT = process.env.PORT || 4000;
 // MIDDLEWARE
 // ------------------------------------
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONYEND_URL,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
@@ -31,12 +37,21 @@ app.use(
 
     cookie: {
       httpOnly: true,
-      sameSite: "lax",
-      secure: false,
+
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : "lax",
+
+      secure:
+        process.env.NODE_ENV === "production",
+
       maxAge: 1000 * 60 * 60 * 8,
     },
   })
 );
+
+
 
 
 // ------------------------------------

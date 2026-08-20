@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { API_URL } from "../api";
 
 function Admin() {
   const navigate = useNavigate();
@@ -11,28 +12,40 @@ function Admin() {
   useEffect(() => {
     const getInquiries = async () => {
       try {
-        const response = await fetch("/api/inquiries");
+        const response = await fetch(
+          `${API_URL}/api/inquiries`,
+          {
+            credentials: "include",
+          }
+        );
 
         const data = await response.json();
 
         if (!response.ok) {
+          if (response.status === 401) {
+            navigate("/admin/login");
+            return;
+          }
+
           throw new Error(
             data.message || "Could not load inquiries."
           );
         }
 
         setInquiries(data.inquiries);
+
       } catch (error) {
         console.error(error);
 
         setError("Could not load inquiries.");
+
       } finally {
         setLoading(false);
       }
     };
 
     getInquiries();
-  }, []);
+  }, [navigate]);
 
 
   // ------------------------------------
@@ -45,9 +58,11 @@ function Admin() {
   ) => {
     try {
       const response = await fetch(
-        `/api/inquiries/${inquiryId}/status`,
+        `${API_URL}/api/inquiries/${inquiryId}/status`,
         {
           method: "PATCH",
+
+          credentials: "include",
 
           headers: {
             "Content-Type": "application/json",
@@ -92,9 +107,10 @@ function Admin() {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        "/api/admin/logout",
+        `${API_URL}/api/admin/logout`,
         {
           method: "POST",
+          credentials: "include",
         }
       );
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
+import { API_URL } from "../api";
 
 function ProjectForm() {
   const [formData, setFormData] = useState({
@@ -24,18 +25,19 @@ function ProjectForm() {
     event.preventDefault();
 
   try {
-    const response = await fetch(
-      "/api/inquiries",
-      {
-        method: "POST",
+  const response = await fetch(
+    `${API_URL}/api/inquiries`,
+    {
+      method: "POST",
 
-        headers: {
-          "Content-Type": "application/json",
-        },
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-        body: JSON.stringify(formData),
-      }
-    );
+      body: JSON.stringify(formData),
+    }
+  );
+
 
     const data = await response.json();
 

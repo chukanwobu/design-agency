@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { API_URL } from "../api";
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -28,15 +29,20 @@ function AdminLogin() {
     setError("");
 
     try {
-      const response = await fetch("/api/admin/login", {
-        method: "POST",
+      const response = await fetch(
+        `${API_URL}/api/admin/login`,
+        {
+          method: "POST",
 
-        headers: {
-          "Content-Type": "application/json",
-        },
+          credentials: "include",
 
-        body: JSON.stringify(formData),
-      });
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
 
