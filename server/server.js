@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 4000;
 
 app.use(
   cors({
-    origin: process.env.FRONYEND_URL,
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
@@ -259,10 +259,10 @@ app.post("/api/inquiries", (req, res) => {
   // --------------------------------
 
   const allowedBudgets = [
-    "under-1000",
-    "1000-2500",
-    "2500-5000",
-    "5000-plus",
+    "under-100",
+    "100-250",
+    "250-500",
+    "500-plus",
   ];
 
   if (!allowedBudgets.includes(budget)) {

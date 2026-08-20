@@ -24,40 +24,53 @@ function ProjectForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-  try {
-  const response = await fetch(
-    `${API_URL}/api/inquiries`,
-    {
-      method: "POST",
+    try {
+      const response = await fetch(
+        `${API_URL}/api/inquiries`,
+        {
+          method: "POST",
 
-      headers: {
-        "Content-Type": "application/json",
-      },
+          headers: {
+            "Content-Type": "application/json",
+          },
 
-      body: JSON.stringify(formData),
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(
+          data.message ||
+          "Something went wrong. Please try again."
+        );
+
+        return;
+      }
+
+      alert("Your project inquiry was submitted!");
+
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        projectType: "",
+        budget: "",
+        message: "",
+      });
+
+    } catch (error) {
+      console.error(
+        "Error submitting inquiry:",
+        error
+      );
+
+      alert(
+        "Something went wrong. Please try again."
+      );
     }
-  );
-
-
-    const data = await response.json();
-
-    console.log(data);
-
-    alert("Your project inquiry was submitted!");
-    setFormData({
-      name: "",
-      email: "",
-      company: "",
-      projectType: "",
-      budget: "",
-      message: "",
-    });
-  } catch (error) {
-    console.error("Error submitting inquiry:", error);
-
-    alert("Something went wrong. Please try again.");
-  }
-};
+  };
 
   return (
     <motion.form

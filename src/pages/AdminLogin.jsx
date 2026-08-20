@@ -47,15 +47,25 @@ function AdminLogin() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.message || "Login failed.");
+        setError(
+          data.message || "Login failed."
+        );
+
         return;
       }
 
       navigate("/admin");
-    } catch (error) {
-      console.error(error);
 
-      setError("Could not connect to the server.");
+    } catch (error) {
+      console.error(
+        "Admin login error:",
+        error
+      );
+
+      setError(
+        "Could not connect to the server."
+      );
+
     } finally {
       setLoading(false);
     }
@@ -64,7 +74,10 @@ function AdminLogin() {
   return (
     <div className="adminLoginPage">
       <div className="adminLoginCard">
-        <p className="adminEyebrow">STUDIO.</p>
+
+        <p className="adminEyebrow">
+          STUDIO.
+        </p>
 
         <h1>Admin Login</h1>
 
@@ -73,6 +86,7 @@ function AdminLogin() {
         </p>
 
         <form onSubmit={handleSubmit}>
+
           <div className="adminLoginGroup">
             <label htmlFor="adminEmail">
               Email
@@ -116,11 +130,15 @@ function AdminLogin() {
             className="adminLoginButton"
             disabled={loading}
           >
-            {loading ? "Signing In..." : "Sign In"}
+            {loading
+              ? "Signing In..."
+              : "Sign In"}
 
             <span>↗</span>
           </button>
+
         </form>
+
       </div>
     </div>
   );
